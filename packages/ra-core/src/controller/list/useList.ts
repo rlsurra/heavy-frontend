@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import { removeEmpty } from '../../util';
 import { FilterPayload, RaRecord, SortPayload } from '../../types';
-import { ResourceContextValue, useResourceContext } from '../../core';
+import { useResourceContext } from '../../core';
 import usePaginationState from '../usePaginationState';
 import useSortState from '../useSortState';
 import { useRecordSelection } from './useRecordSelection';
@@ -91,11 +91,44 @@ export const useList = <RecordType extends RaRecord = any>(
         total: data ? data.length : undefined,
     }));
 
+    // Store pagination states for each storeKey
+    const storeKeyPaginationRef = useRef<{
+        [key: string]: { page: number; perPage: number };
+    }>({});
+
     // pagination logic
     const { page, setPage, perPage, setPerPage } = usePaginationState({
         page: initialPage,
         perPage: initialPerPage,
     });
+
+    useEffect(() => {
+        if (!resource) return;
+        // Check if storeKey exists in the pagination store
+        const currentPagination = storeKeyPaginationRef.current[resource];
+        if (currentPagination) {
+            // Restore existing pagination state for the storeKey
+            if (
+                page !== currentPagination.page ||
+                perPage !== currentPagination.perPage
+            ) {
+                setPage(currentPagination.page);
+                setPerPage(currentPagination.perPage);
+            }
+        } else {
+            setPage(initialPage);
+            setPerPage(initialPerPage);
+        }
+        storeKeyPaginationRef.current[resource] = { page, perPage };
+    }, [
+        resource,
+        setPage,
+        setPerPage,
+        initialPage,
+        initialPerPage,
+        page,
+        perPage,
+    ]);
 
     // sort logic
     const { sort, setSort: setSortState } = useSortState(initialSort);
