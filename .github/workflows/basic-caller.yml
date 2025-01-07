@@ -5,4 +5,4 @@ on:
 
 jobs:
   test:
-    uses: movistar-poc/org-core-workflows/.github/workflows/basic-reusable.yml@main
+    uses: rlsurra/org-core-workflows/.github/workflows/openshift-ci-onpremise.yml@main
