@@ -23,7 +23,11 @@
         "storybook": "storybook dev -p 9010",
         "build-storybook": "storybook build -c .storybook -o public --quiet"
     },
-    "devDependencies": {
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rlsurra/heavy-frontend"
+    },
+    "dependencies": {
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "@storybook/addon-actions": "^8.4.4",
         "@storybook/addon-controls": "^8.4.4",

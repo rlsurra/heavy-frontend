@@ -1,0 +1,16 @@
+name: Workflow para CI
+
+on:
+  push:
+    branches:
+        - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  security-events: write
+
+jobs:
+  ci:
+    uses: rlsurra/org-core-workflows/.github/workflows/openshift-ci-onpremise.yml@main
+    secrets: inherit

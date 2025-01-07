@@ -1,0 +1,8 @@
+name: Test Workflow Call
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    uses: movistar-poc/org-core-workflows/.github/workflows/basic-reusable.yml@main
